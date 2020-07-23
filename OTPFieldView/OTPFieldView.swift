@@ -247,12 +247,17 @@ import UIKit
 }
 
 extension OTPFieldView: UITextFieldDelegate {
+
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("Cursor is on")
+        textField.layer.borderColor = filledBorderColor.cgColor
+    }
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         let shouldBeginEditing = delegate?.shouldBecomeFirstResponderForOTP(otpTextFieldIndex: (textField.tag - 1)) ?? true
         if shouldBeginEditing {
             return isPreviousFieldsEntered(forTextField: textField)
         }
-        
+        textField.layer.borderColor = filledBorderColor.cgColor
         return shouldBeginEditing
     }
     
@@ -314,6 +319,7 @@ extension OTPFieldView: UITextFieldDelegate {
                 if textField.tag > 1 {
                     if let prevOTPField = viewWithTag(textField.tag - 1) as? UITextField {
                         prevOTPField.becomeFirstResponder()
+                        prevOTPField.layer.borderColor = filledBorderColor.cgColor
                     }
                 }
             }
@@ -339,5 +345,6 @@ extension OTPFieldView: UITextFieldDelegate {
         
         // Get the entered string
         calculateEnteredOTPSTring(isDeleted: true)
+        textField.layer.borderColor = filledBorderColor.cgColor
     }
 }
